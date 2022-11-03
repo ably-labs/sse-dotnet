@@ -1,11 +1,10 @@
 using Lib.AspNetCore.ServerSentEvents;
 
 var builder = WebApplication.CreateBuilder(args);
-var allowSpecificOrigins = "_allowSpecificOrigins";
-
-// Add services to the container.
 builder.Services.AddServerSentEvents();
 builder.Services.AddHostedService<ServerSideEventsWorker>();
+
+var allowSpecificOrigins = "_allowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: allowSpecificOrigins,
@@ -17,7 +16,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 app.UseCors(allowSpecificOrigins);
-app.MapServerSentEvents("/sse-endpoint");
+app.MapServerSentEvents("/sse-weather");
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

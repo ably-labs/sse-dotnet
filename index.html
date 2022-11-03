@@ -2,11 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <link rel="icon" href="https://static.ably.dev/motif-black.svg?sse-dotnet" />
         <title>Weather forecast using Server-Sent Events</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <script type="text/javascript">
-        const eventSource = new EventSource("//localhost:5011/sse-endpoint");
+        const eventSource = new EventSource("//localhost:5011/sse-weather");
         eventSource.onopen = (event) => {
           console.log("Connection to server opened.");
         };
