@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "ritwickdey.LiveServer"
+        "ms-dotnettools.csharp",
+        "ritwickdey.liveserver"
     ]
 }

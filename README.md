@@ -22,8 +22,10 @@ The solution consists of two parts:
 
 ### Prerequisites
 
-- An IDE to build and run the web API, I'm using [VS Code](https://code.visualstudio.com/).
-- A way to locally host the `index.html` file. I'm using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VS Code. If you use VSCode to open this repository this extension will be suggested to you.
+- An IDE that supports C#/.NET to build and run the web API, I'm using [VS Code](https://code.visualstudio.com/) with the [C# extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp).
+- A way to locally host the `index.html` file. I'm using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VS Code.
+
+> If you use VSCode to open this repository, both the *C#* and *Live Server* extensions will be suggested to you to install.
 
 ### Running locally
 
