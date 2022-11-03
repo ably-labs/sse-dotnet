@@ -1,6 +1,7 @@
 using Lib.AspNetCore.ServerSentEvents;
 
 var builder = WebApplication.CreateBuilder(args);
+var  AllowSpecificOrigins = "_allowSpecificOrigins";
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -8,9 +9,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddServerSentEvents();
 builder.Services.AddHostedService<ServerSideEventsWorker>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSpecificOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("http://127.0.0.1:5500");
+                      });
+});
 
 var app = builder.Build();
-app.MapServerSentEvents("/sse-endpoint");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,8 +26,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+  
 app.UseHttpsRedirection();
+app.UseCors(AllowSpecificOrigins);
+app.MapServerSentEvents("/sse-endpoint");
 
 var summaries = new[]
 {
@@ -51,7 +61,7 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 
 }
 
-public class ServerSideEventsWorker : IHostedService
+public class ServerSideEventsWorker : BackgroundService
 {
     private readonly IServerSentEventsService _serverSentEventsService;
 
@@ -60,7 +70,7 @@ public class ServerSideEventsWorker : IHostedService
         _serverSentEventsService = serverSentEventsService;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         var summaries = new[]
         {
@@ -71,18 +81,17 @@ public class ServerSideEventsWorker : IHostedService
             var clients = _serverSentEventsService.GetClients();
             if (clients.Any())
             {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
+                var forecast = new WeatherForecast
                 (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                    DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
                     Random.Shared.Next(-20, 55),
                     summaries[Random.Shared.Next(summaries.Length)]
-                )).ToArray();
+                );
                 await _serverSentEventsService.SendEventAsync(
                     new ServerSentEvent
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Type = "forecast",
+                        Id = Guid.NewGuid().ToString("N"),
+                        //Type = "forecast",
                         Data = new List<string> { forecast.ToString() }
                     },
                     cancellationToken
@@ -91,10 +100,5 @@ public class ServerSideEventsWorker : IHostedService
 
             await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
         }
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
     }
 }

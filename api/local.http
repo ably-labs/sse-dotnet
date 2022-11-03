@@ -1,0 +1,3 @@
+/// http://localhost:5011/swagger/index.html
+
+GET http://localhost:5011/weatherforecast

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Server-Sent Events</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+      <script type="text/javascript">
+        const eventSource = new EventSource("//localhost:5011/sse-endpoint");
+        eventSource.onmessage = (event) => {
+          console.log(event.data);
+          const newElement = document.createElement("li");
+          const eventList = document.getElementById("list");
+          
+          newElement.textContent = `message: ${event.data}`;
+          eventList.appendChild(newElement);
+        }
+
+        eventSource.onerror = (err) => {
+          console.error("EventSource failed:", err);
+        };
+    </script>
+    <body>
+        <ul id="list"></ul>
+    </body>
+    
+</html>
