@@ -10,7 +10,7 @@ This repository contains a .NET 7 minimal web API example how to use Server-Sent
 
 The project uses the following components:
 
-- [.NET 7](https://dotnet.microsoft.com/download/dotnet/7.0), version 7 of the .NET Framework.
+- [.NET 7](https://dotnet.microsoft.com/download/dotnet/7.0), version 7 of the .NET SDK.
 - [Lib.AspNetCore.ServerSentEvents](https://github.com/tpeczek/Lib.AspNetCore.ServerSentEvents), a library that provides Server-Sent Events for ASP.NET Core.
 
 ## Building & running locally
@@ -36,7 +36,7 @@ The solution consists of two parts:
    - This will open an empty browser window at [http://localhost:5011/](http://localhost:5011/).
    - You'll see a message like '*This localhost page can’t be found*'. This is expected since the API doesn't have a default route or any UI.
 
-The weather forecast page (at [http://127.0.0.1:5500/index.html](http://127.0.0.1:5500/index.html)) will now update every 2 seconds with new data.
+The weather forecast page (at [127.0.0.1:5500/index.html](http://127.0.0.1:5500/index.html)) will now update every 2 seconds with new data.
 
 ## Contributing
 
